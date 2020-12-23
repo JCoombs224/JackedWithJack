@@ -1,0 +1,70 @@
+function BMICalculator.new 0
+push constant 4
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+pop this 0
+push argument 1
+pop this 1
+push argument 2
+pop this 2
+push pointer 0
+return
+function BMICalculator.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function BMICalculator.calculateBMI 5
+push argument 0
+pop pointer 0
+push constant 24
+pop local 2
+push argument 2
+push constant 2
+call Math.divide 2
+pop local 3
+push local 3
+push constant 100
+call Math.multiply 2
+pop local 3
+push argument 1
+push constant 10
+call Math.multiply 2
+pop local 4
+push local 4
+push constant 39
+call Math.divide 2
+pop local 4
+push local 4
+call BMICalculator.getSquared 1
+pop local 0
+push local 3
+push local 0
+call Math.divide 2
+pop local 1
+push local 1
+return
+function BMICalculator.getSquared 1
+push argument 0
+push argument 0
+call Math.multiply 2
+pop local 0
+push local 0
+return
+function BMICalculator.getHeightInInches 1
+push argument 0
+pop pointer 0
+push argument 1
+push constant 12
+call Math.multiply 2
+pop local 0
+push local 0
+push argument 2
+add
+pop local 0
+push local 0
+return

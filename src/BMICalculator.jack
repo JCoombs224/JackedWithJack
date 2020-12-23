@@ -1,0 +1,100 @@
+/**
+* The BMICalculator.jack class is used to create a new BMICalculator object.
+* That object can then be used to calculate the users body mass index (BMI).
+* 
+* @author Jamison Coombs
+* @version 1.0
+*/
+class BMICalculator
+{
+	field int feet, inches, weight;
+	field int BMI;
+	
+	/**
+	* Constructor for a new BMICalculator object.
+	*
+	* @param ft - The users height in feet.
+	* @param in - The users height in inches above the inputted feet.
+	* @param wgt - The users weight in pounds.
+	*/
+	constructor BMICalculator new(int ft, int in, int wgt)
+	{
+		let feet = ft;
+		let inches = in;
+		let weight = wgt;
+		
+		return this;
+	}
+	
+	// Deallocate from system memory
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+	
+	/**
+	* Method to calculate the users BMI.
+	* Note: Jack has a low integer limit and no implementation for doubles,
+	* so the calculations are not completely accurate.
+	* 
+	* @param hght - The users total height in inches.
+	* @param wght - The users weight in pounds.
+	* @return Users BMI.
+	*/
+	method int calculateBMI(int hght, int wgt)
+	{
+		var int hghtSquared;
+		var int bmiTemp;
+		var int constant;
+		var int weightKg, heightM;
+		
+		let constant = 24;
+		
+		let weightKg = wgt / 2;
+		let weightKg = weightKg * 100;
+		
+		let heightM = hght * 10;
+		let heightM = heightM / 39;
+		
+		// Height and weight had to be converted to metric
+		// Jack has a small int limit so some tinkering had to be done
+		// to stay below that when doing calculations.
+		
+		let hghtSquared = BMICalculator.getSquared(heightM);
+		let bmiTemp = weightKg / hghtSquared;
+		
+		return bmiTemp;
+	}
+	
+	/**
+	* Calculates a number 'n' squared and returns it.
+	* 
+	* @param n - Number to be squared.
+	* @return squared - The number squared.
+	*/
+	function int getSquared(int n)
+	{
+		var int squared;
+		
+		let squared = n * n;
+		return squared;
+	}
+	
+	/**
+	* Calculates a total height in inches based on a height in 
+	* ft'in notation.
+	* 
+	* @param ft - How many feet in the height.
+	* @param in - Hoe mant inches in the height.
+	* @return n - The total height in inches.
+	*/
+	method int getHeightInInches(int ft, int in)
+	{
+		var int n;
+		
+		let n = ft * 12;
+		let n = n + in;
+		
+		return n;
+	}
+}

@@ -1,0 +1,90 @@
+/**
+* The BMRCalculator.jack class is used to create a new BMRCalculator object.
+* That object can then be used to calculate the users basal metabolic rate (BMR).
+* 
+* @author Jamison Coombs
+* @version 1.0
+*/
+class BMRCalculator
+{
+	static int bmrStatic;
+	field int BMR;
+	static int height, weight, activity, age;
+	static boolean sex;
+	
+	/**
+	* Constructor for a new BMRCalculator object.
+	*
+	* @param hght - The users total height in inches.
+	* @param wght - The users total weight in pounds.
+	* @param actv - The users activity level.
+	* @param ag - The users age.
+	* @param sx - The users sex.
+	*/
+	constructor BMRCalculator new(int hght, int wght, int actv, int ag, boolean sx)
+	{
+		let height = hght * 3; // converts to metric
+		let weight = wght; // converts to metric
+		let activity = actv;
+		let age = ag;
+		let sex = sx;
+		
+		return this;
+	}
+	
+	// Deallocate from system memory
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+	
+	/**
+	* Method to calculate the users BMR.
+	* Note: Jack has a low integer limit and no implementation for doubles,
+	* so the calculations are not completely accurate.
+	* 
+	* @param hght - The users total height in inches.
+	* @param wght - The users weight in pounds.
+	* @param actv - The users activity level.
+	* @param ag - The users age.
+	* @param sx - The users sex.
+	* @return The users BMR.
+	*/
+	method int calculateBMR(int hght, int wght, int actv, int ag, boolean sx)
+	{
+		var int temp;
+		let temp = 0;
+		
+		if (sex) // if 'female'
+		{
+			let temp = 655;
+			let temp = temp + (10 * wght);
+			let temp = temp + (2 * hght);
+			let temp = temp - (5 * ag);
+		}
+		else
+		{
+			let temp = 66;
+			let temp = temp + (14 * wght);
+			let temp = temp + (5 * hght);
+			let temp = temp - (7 * ag);
+		}
+		
+		// Now factor in activity level
+		if (actv = 5)
+		{
+			let temp = temp * 2;
+		}
+		if (actv = 6)
+		{
+			let temp = temp * 2;
+		}
+		if (actv = 7)
+		{
+			let temp = temp * 2;
+		}
+		
+		
+		return temp;
+	}
+}

@@ -1,0 +1,441 @@
+/**
+* The Main.jack class is the main driver class for the JackedWithJack program.
+* The JackedWithJack program determines the users BMI, BMR, and health based on
+* an inputted height, weight, age, sex, and activity level.
+* It will then display the results on a screen with graphics to help the user
+* maintain or achieve a healthy BMI based on the users calculated BMR.
+* 
+* @author Jamison Coombs
+* @version 1.0
+*/
+class Main
+{
+	static int feet, inches, height, weight, activity, age;
+	static boolean sex, next, escape;
+	static char key;
+	static int bmi, bmr;
+	static BMICalculator bmiCalc;
+	static BMRCalculator bmrCalc;
+	static ResultScreen rScreen;
+	
+	/**
+	* Main method that drives the JackedWithJack program.
+	*/
+	function void main()
+	{
+	
+		do Main.heightStep();
+		do Screen.clearScreen();
+		do Output.printString("Okay your height has been entered in...");
+		do Sys.wait(1500);
+		do Screen.clearScreen();
+		do Output.moveCursor(0, 0);
+		
+		do Main.weightStep();
+		do Screen.clearScreen();
+		do Output.printString("Weight has been entered. Let's move on...");
+		do Sys.wait(1500);
+		do Screen.clearScreen();
+		do Output.moveCursor(0, 0);
+		
+		do Main.sexStep();
+		do Screen.clearScreen();
+		do Output.printString("Awesome! Almost done...");
+		do Sys.wait(1500);
+		do Screen.clearScreen();
+		do Output.moveCursor(0, 0);
+		
+		do Main.ageStep();
+		do Screen.clearScreen();
+		do Output.printString("Awesome! Just one last question...");
+		do Sys.wait(1500);
+		do Screen.clearScreen();
+		do Output.moveCursor(0, 0);
+		
+		do Main.activityStep();
+		do Screen.clearScreen();
+		do Main.animate();
+		do Screen.clearScreen();
+		do Output.moveCursor(0, 0);
+		
+		let bmiCalc = BMICalculator.new(feet, inches, weight);
+		let height = bmiCalc.getHeightInInches(feet, inches);
+		
+		let bmrCalc = BMRCalculator.new(height, weight, activity, age, sex);
+		
+		let bmi = bmiCalc.calculateBMI(height, weight);
+		let bmr = bmrCalc.calculateBMR(height, weight, activity, age, sex);
+		
+		do bmiCalc.dispose();
+		do bmrCalc.dispose();
+		
+		let rScreen = ResultScreen.new(bmi, bmr);
+		
+		do rScreen.printResultScreen();
+		
+		do rScreen.dispose();
+		
+		
+		
+		return;
+	}
+	
+	/**
+	* Displays animated text for calculating the users results.
+	*/
+	function void animate()
+	{
+		var int i, j;
+		
+		let i = 0;
+		let j = 0;
+		
+		do Output.printString("Generating your results");
+		
+		while (j<3)
+		{
+			let i = 0;
+			while (i<3)
+			{
+				do Output.printChar(46);
+				do Sys.wait(500);
+				let i = i + 1;
+			}
+			do Output.backSpace();
+			do Output.backSpace();
+			do Output.backSpace();
+			let j = j + 1;
+		}
+		
+		return;
+	}
+	
+	/**
+	* Asks the user their age and stores the age value.
+	*/
+	function void ageStep()
+	{
+		do Output.printString("Get Jacked With Jack");
+		do Output.printString(" (Step 4/5)");
+		do Output.println();
+		do Output.println();
+		let age = Keyboard.readInt("Please enter your age: ");
+		do Output.println();
+		
+		do Output.printString("You are ");
+		do Output.printInt(age);
+		do Output.printString(" years old? (y/n)");
+		
+		let escape = false;
+		
+		while(~escape)
+		{
+			let key = 0;
+			
+			while (key = 0)
+			{
+				let key = Keyboard.keyPressed();
+			}
+			
+			if (key = 89) // key = y
+			{
+				let next = true;
+				let escape = true;
+			}
+			
+			if (key = 78) // key = n
+			{
+				let next = false;
+				let escape = true;
+			}
+			
+		}
+		
+		if (~next) // If the user presses 'n'
+		{
+			do Screen.clearScreen();
+			do Output.printString("Okay, let's try this again then...");
+			do Sys.wait(1000);
+			do Screen.clearScreen();
+			do Output.moveCursor(0, 0);
+			do Main.ageStep();
+		}
+		
+		return;
+	}
+	
+	/**
+	* Asks the user their activity level and stores the activity value.
+	*/
+	function void activityStep()
+	{
+		do Output.printString("Get Jacked With Jack");
+		do Output.printString(" (Step 5/5)");
+		do Output.println();
+		do Output.println();
+		do Output.printString("Step 4: What is your activity level?");
+		do Output.println();
+		do Output.println();
+		do Output.printString("1. Sedentary: little or no exercise.");
+		do Output.println();
+		do Output.printString("2. Exercise 1-3 times/week");
+		do Output.println();
+		do Output.printString("3. Exercise 4-5 times/week");
+		do Output.println();
+		do Output.printString("4. Daily exercise or intense exercise 3-4 times/week");
+		do Output.println();
+		do Output.printString("5. Daily exercise or intense exercise 3-4 times/week");
+		do Output.println();
+		do Output.printString("6. Intense exercise 6-7 times/week");
+		do Output.println();
+		do Output.printString("7. Very intense exercise daily");
+		do Output.println();
+		
+		let activity = Keyboard.readInt("");
+		
+		do Output.println();
+		do Output.printString("Is number ");
+		do Output.printInt(activity);
+		do Output.printString(" correct? (y/n)");
+		
+		let escape = false;
+		
+		while(~escape)
+		{
+			let key = 0;
+			
+			while (key = 0)
+			{
+				let key = Keyboard.keyPressed();
+			}
+			
+			if (key = 89) // key = y
+			{
+				let next = true;
+				let escape = true;
+			}
+			
+			if (key = 78) // key = n
+			{
+				let next = false;
+				let escape = true;
+			}
+			
+		}
+		
+		if (~next) // If the user presses 'n'
+		{
+			do Screen.clearScreen();
+			do Output.printString("Okay, let's try this again then...");
+			do Sys.wait(1000);
+			do Screen.clearScreen();
+			do Output.moveCursor(0, 0);
+			do Main.activityStep();
+		}
+		
+		return;
+	}
+	
+	/**
+	* Asks the user their sex and stores the sex value.
+	*/
+	function void sexStep()
+	{
+		do Output.printString("Get Jacked With Jack");
+		do Output.printString(" (Step 3/5)");
+		do Output.println();
+		do Output.println();
+		do Output.printString("Step 3: What is your sex?");
+		do Output.println();
+		do Output.printString("(Please press the M (male) or F (female) key)");
+		do Output.println();
+		
+		let escape = false;
+		
+		while(~escape)
+		{
+			let key = 0;
+			
+			while (key = 0)
+			{
+				let key = Keyboard.keyPressed();
+			}
+			
+			if (key = 77) // key = M
+			{
+				let sex = false;
+				let escape = true;
+			}
+			
+			if (key = 70) // key = F
+			{
+				let sex = true;
+				let escape = true;
+			}
+			
+		}
+		
+		do Output.printString("You meant to select "); // Confirm correct sex was selected.
+		if (sex)
+		{
+			do Output.printString("female right? (y/n) ");
+		}
+		if (~sex)
+		{
+			do Output.printString("male right? (y/n) ");
+		}
+		do Output.println();
+		
+		let escape = false;
+		
+		while(~escape)
+		{
+			let key = 0;
+			
+			while (key = 0)
+			{
+				let key = Keyboard.keyPressed();
+			}
+			
+			if (key = 89) // key = y
+			{
+				let next = true;
+				let escape = true;
+			}
+			
+			if (key = 78) // key = n
+			{
+				let next = false;
+				let escape = true;
+			}
+			
+		}
+		
+		if (~next) // If the user presses 'n'
+		{
+			do Screen.clearScreen();
+			do Output.printString("Okay, let's try this again then...");
+			do Sys.wait(1000);
+			do Screen.clearScreen();
+			do Output.moveCursor(0, 0);
+			do Main.sexStep();
+		}
+		
+		return;
+	}
+	
+	/**
+	* Asks the user their weight and stores in the weight value.
+	*/
+	function void weightStep()
+	{
+		do Output.printString("Get Jacked With Jack");
+		do Output.printString(" (Step 2/5)");
+		do Output.println();
+		do Output.println();
+		let weight = Keyboard.readInt("Step 2: Please enter your weight (lbs): ");
+		do Output.println();
+		do Output.printString("Okay! So just to confirm your weight is: ");
+		do Output.printInt(weight);
+		do Output.printString(" lbs? (y/n) ");
+		do Output.println();
+		
+		let escape = false;
+		
+		while(~escape)
+		{
+			let key = 0;
+			
+			while (key = 0)
+			{
+				let key = Keyboard.keyPressed();
+			}
+			
+			if (key = 89) // key = y
+			{
+				let next = true;
+				let escape = true;
+			}
+			
+			if (key = 78) // key = n
+			{
+				let next = false;
+				let escape = true;
+			}
+			
+		}
+		
+		if (~next) // If the user presses 'n'
+		{
+			do Screen.clearScreen();
+			do Output.printString("Okay, let's try this again then...");
+			do Sys.wait(1000);
+			do Screen.clearScreen();
+			do Output.moveCursor(0, 0);
+			do Main.weightStep();
+		}
+		
+		return;
+	}
+	
+	/**
+	* Asks the user their height and stores in the feet and inch values.
+	*/
+	function void heightStep()
+	{
+		do Output.printString("Get Jacked With Jack");
+		do Output.printString(" (Step 1/5)");
+		do Output.println();
+		do Output.println();
+		do Output.printString("Step 1: Please enter your height: ");
+		do Output.println();
+		do Output.println();
+		let feet = Keyboard.readInt("Feet: ");
+		let inches = Keyboard.readInt("Inches: ");
+		do Output.println();
+		
+		do Output.printString("Great! So just to confirm your height is: ");
+		do Output.printInt(feet);
+		do Output.printString("'");
+		do Output.printInt(inches);
+		do Output.printString("? (y/n) ");
+		do Output.println();
+		
+		let escape = false;
+		
+		while(~escape)
+		{
+			let key = 0;
+			
+			while (key = 0)
+			{
+				let key = Keyboard.keyPressed();
+			}
+			
+			if (key = 89) // key = y
+			{
+				let next = true;
+				let escape = true;
+			}
+			
+			if (key = 78) // key = n
+			{
+				let next = false;
+				let escape = true;
+			}
+			
+		}
+		
+		if (~next) // If the user presses 'n'
+		{
+			do Screen.clearScreen();
+			do Output.printString("Okay, let's try this again then...");
+			do Sys.wait(1000);
+			do Screen.clearScreen();
+			do Output.moveCursor(0, 0);
+			do Main.heightStep();
+		}
+		
+		return;
+	}
+}

@@ -1,0 +1,171 @@
+/**
+* The ResultScreen.jack class is a jack object that determines if the
+* user is underweight, healthy, or overweight based on a calculated BMI.
+* The printResultScreen() method then prints out the results based on the
+* BMI range. It also displays a calculated BMR and tells the user to either
+* eat less than it, the same, or more based on the BMI. It prints a graphic
+* of a stick figure that matches the calculated BMI range.
+* 
+* @author Jamison Coombs
+* @version 1.0
+*/
+class ResultScreen
+{
+	field int bmi, bmr;
+	static int bmiStatic, bmrStatic;
+	
+	/**
+	* Constructor for a new ResultScreen object.
+	*
+	* @param bi - The calculated BMI.
+	* @param br - The calculated BMR.
+	*/
+	constructor ResultScreen new(int bi, int br)
+	{
+		let bmi = bi;
+		let bmr = br;
+		
+		let bmiStatic = bi;
+		let bmrStatic = br;
+		
+		return this;
+	}
+	
+	// Deallocate from system memory
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+	
+	/**
+	* Determines the BMI range the user falls in and prints a
+	* graphic and text that is catered to the BMI of the user.
+	*
+	*/
+	method void printResultScreen()
+	{
+		var int i;
+		let i = 0;
+		
+		do Output.printString("Your body mass index (BMI) is: ");
+		do Output.printInt(bmi);
+		do Output.println();
+		do Output.printString("Your basal metabolic rate (BMR) is: ");
+		do Output.printInt(bmr);
+		do Output.printString(" calories");
+		do Output.moveCursor(4, 30);
+	
+		do Screen.drawCircle(75, 100, 20); // Draws the head with radius of 20
+		
+		while (i < 7) // Draws the legs and loops to have thickness of i
+		{
+			do Screen.drawLine(75 + i, 200, 95 + i, 250); // Right leg
+			do Screen.drawLine(75 - i, 200, 55 - i, 250); // Left leg
+			
+			let i = i + 1;
+		}
+		let i = 0; // return 'i' counter back to 0
+		
+	
+		// Determine which graphic to print based on bmi
+		
+		if (bmiStatic < 19) // Underweight
+		{
+			while (i < 3) // Draw line torso with 2 pixel thickness
+			{
+				do Screen.drawLine(74 + i, 118, 74 + i, 200); // Torso
+				let i = i + 1;
+			}
+			let i = 0; // return 'i' counter back to 0
+			
+			while (i < 5) // Draws the arms
+			{
+				do Screen.drawLine(75 + i, 130, 95 + i, 170); // Right arm
+				do Screen.drawLine(75 - i, 130, 55 - i, 170); // Left arm
+				
+				let i = i + 1;
+			}
+			let i = 0; // return 'i' counter back to 0
+			
+			// Text print out
+			do Output.printString("You are Underweight!");
+			do Output.moveCursor(6, 20);
+			do Output.printString("You should increase your BMI by eating more");
+			do Output.moveCursor(7, 20);
+			do Output.printString("than your BMR of ");
+			do Output.printInt(bmr);
+			do Output.printString(" calories, in order to");
+			do Output.moveCursor(8, 20);
+			do Output.printString("increase your weight!");
+		}
+		
+		else
+		{
+			if (bmiStatic < 27) // Healthy
+				{
+				while (i < 9) // Draw line torso with 2 pixel thickness
+				{
+					do Screen.drawLine(71 + i, 118, 71 + i, 200); // Torso
+					let i = i + 1;
+				}
+				let i = 0; // return 'i' counter back to 0
+				
+				while (i < 5) // Draws the arms
+				{
+					do Screen.drawLine(79 + i, 130, 99 + i, 170); // Right arm
+					do Screen.drawLine(71 - i, 130, 51 - i, 170); // Left arm
+					
+					let i = i + 1;
+				}
+				let i = 0; // return 'i' counter back to 0
+				
+				// Text print out
+				do Output.printString("You are a Healthy weight!");
+				do Output.moveCursor(6, 20);
+				do Output.printString("You maintain your BMI by continuing to eat");
+				do Output.moveCursor(7, 20);
+				do Output.printString("your BMR of ");
+				do Output.printInt(bmr);
+				do Output.printString(" calories a day, in order to");
+				do Output.moveCursor(8, 20);
+				do Output.printString("maintain your weight!");
+				}
+			
+			else // Overweight (BMI > 26) 
+			{
+				while (i < 13) // Draw line torso with 2 pixel thickness
+				{
+					do Screen.drawLine(69 + i, 118, 69 + i, 200); // Torso
+					let i = i + 1;
+				}
+				let i = 0; // return 'i' counter back to 0
+				
+				while (i < 8) // Draws the arms
+				{
+					do Screen.drawLine(101 + i, 130, 136 + i, 160); // Right arm
+					do Screen.drawLine(49 - i, 130, 14 - i, 160); // Left arm
+					
+					let i = i + 1;
+				}
+				let i = 0; // return 'i' counter back to 0
+				
+				do Screen.drawCircle(75, 160, 40);
+				
+				// Text print out
+				do Output.printString("You are Overweight!");
+				do Output.moveCursor(6, 20);
+				do Output.printString("You should reduce your BMI by eating less");
+				do Output.moveCursor(7, 20);
+				do Output.printString("than your BMR of ");
+				do Output.printInt(bmr);
+				do Output.printString(" calories a day, in");
+				do Output.moveCursor(8, 20);
+				do Output.printString("order to lose weight!");
+			}
+			
+			
+		}
+		
+		return;
+	}
+}

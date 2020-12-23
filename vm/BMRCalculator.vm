@@ -1,0 +1,113 @@
+function BMRCalculator.new 0
+push constant 1
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+push constant 3
+call Math.multiply 2
+pop static 1
+push argument 1
+pop static 2
+push argument 2
+pop static 3
+push argument 3
+pop static 4
+push argument 4
+pop static 5
+push pointer 0
+return
+function BMRCalculator.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function BMRCalculator.calculateBMR 1
+push argument 0
+pop pointer 0
+push constant 0
+pop local 0
+push static 5
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 655
+pop local 0
+push local 0
+push constant 10
+push argument 2
+call Math.multiply 2
+add
+pop local 0
+push local 0
+push constant 2
+push argument 1
+call Math.multiply 2
+add
+pop local 0
+push local 0
+push constant 5
+push argument 4
+call Math.multiply 2
+sub
+pop local 0
+goto IF_END0
+label IF_FALSE0
+push constant 66
+pop local 0
+push local 0
+push constant 14
+push argument 2
+call Math.multiply 2
+add
+pop local 0
+push local 0
+push constant 5
+push argument 1
+call Math.multiply 2
+add
+pop local 0
+push local 0
+push constant 7
+push argument 4
+call Math.multiply 2
+sub
+pop local 0
+label IF_END0
+push argument 3
+push constant 5
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push local 0
+push constant 2
+call Math.multiply 2
+pop local 0
+label IF_FALSE1
+push argument 3
+push constant 6
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push local 0
+push constant 2
+call Math.multiply 2
+pop local 0
+label IF_FALSE2
+push argument 3
+push constant 7
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push local 0
+push constant 2
+call Math.multiply 2
+pop local 0
+label IF_FALSE3
+push local 0
+return
